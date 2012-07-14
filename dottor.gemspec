@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Marco Campana"]
   s.email       = ["m.campana@gmail.com"]
   s.homepage    = 'http://github.com/marcocampana/dottor'
-  s.summary     = %q{Command line tool to manage dotfile the easy way}
-  s.description = %q{Command line tool for easily managing your dotfiles, without assumptions on how your dotfiles repository should be organized.}
+  s.summary     = %q{Command line tool to manage dotfiles the easy way}
+  s.description = %q{Unobtrusive command line tool for easily managing your dotfiles, without assumptions on how your dotfiles repository should be organized.}
 
   s.rubyforge_project = "dottor"
 
