@@ -1,5 +1,0 @@
----
-profile_name:
-  app:
-  - source: .dotfile
-    target: target/.dotfile
