@@ -1,0 +1,5 @@
+---
+dev_mac_os:
+  vim:
+    - source: 'example/.vimrc'
+      target: 'example/to/.vimrc'
