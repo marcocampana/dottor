@@ -34,6 +34,20 @@ class Dottor < Thor
       end
     end
   end
+
+  desc "init", "Create dottor_rule.yml file"
+  def init
+    if File.exists?('dottor_rules.yml')
+      say("Abort: dottor_rules.yml already exist.")
+      exit(1)
+    end
+
+    default_hash = {"developemnt" => {"app" => {"source" => ".dotfile", "target" => "target/.dotfile"}}}
+
+    File.open('dottor_rules.yml', 'w') do |file|
+      file.write(YAML.dump(default_hash))
+    end
+  end
 end
 
 Dottor.start
