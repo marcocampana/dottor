@@ -1,7 +1,6 @@
 require 'yaml'
 require 'fileutils'
 require 'thor'
-
 require 'dottor/dotfile'
 
 module Dottor
@@ -17,12 +16,12 @@ module Dottor
 
       rules[profile_name].each_value do |app|
         app.each do |app_file|
-          Dotfile.new(app_file)
+          dotfile = Dotfile.new(app_file)
 
           if options[:delete]
-            Dotfile.delete_symlink
+            dotfile.delete_symlink
           else
-            Dotfile.create_symlink
+            dotfile.create_symlink
           end
         end
       end

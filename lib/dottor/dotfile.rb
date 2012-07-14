@@ -3,8 +3,8 @@ module Dottor
     attr_accessor :source, :target
 
     def initialize(hash)
-      @source = hash[:source]
-      @target = hash[:target]
+      @source = hash["source"]
+      @target = hash["target"]
     end
 
     def create_symlink
@@ -20,11 +20,14 @@ module Dottor
         FileUtils.rm target
       end
 
-      say("Symlinking #{File.join(current_path, source)} to #{target}")
+      $stdout.puts("Create symlink #{File.join(current_path, source)} -> #{target}")
       FileUtils.symlink File.join(current_path, source), target
     end
 
     def delete_symlink
+      if File.symlink?(target)
+        FileUtils.rm target
+      end
     end
 
     private
