@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'yaml'
 require 'fileutils'
 require 'thor'
@@ -5,13 +7,13 @@ require 'thor'
 require 'pp'
 
 class Dottor < Thor
-  desc "symlink", "Symlink dotfiles"
-  def symlink
-    puts "Loading rules YAML file"
-    yaml_rules = File.open('dottor_rules.yml')
+  desc "symlink <profile_name>", "Symlink dotfiles for the specified profile name"
+  method_option :file, :aliases => "-f", :desc => "Use specified rules yaml file instead of the default dottor_rules.yml"
+  def symlink(profile_name)
+    yaml_rules = options[:file] ? File.open(options[:file]) : File.open('dottor_rules.yml')
 
+    puts "Loading rules YAML file"
     rules = YAML::load(yaml_rules)
-    profile_name = "dev_mac_os"
 
     rules[profile_name].each_value do |app|
       app.each do |app_file|
@@ -33,6 +35,8 @@ class Dottor < Thor
     end
   end
 end
+
+Dottor.start
 
 # TODO
 # 1. Use thor to organize command line tools
