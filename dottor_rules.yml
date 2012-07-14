@@ -1,5 +1,5 @@
 ---
-dev_mac_os:
-  vim:
-    - source: 'example/.vimrc'
-      target: 'example/to/.vimrc'
+profile_name:
+  app:
+  - source: .dotfile
+    target: target/.dotfile
