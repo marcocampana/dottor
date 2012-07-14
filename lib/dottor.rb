@@ -2,12 +2,13 @@ require 'yaml'
 require 'fileutils'
 require 'thor'
 
-require 'pp'
+require 'dottor/dotfile'
 
 module Dottor
   class App < Thor
     desc "symlink <profile_name>", "Symlink dotfiles defined in specified profile name"
     method_option :file, :aliases => "-f", :desc => "Use specified rules yaml file instead of the default dottor_rules.yml"
+    method_option :delete, :aliases => "-d", :desc => "Delete existing symlinks added by dottor"
     def symlink(profile_name)
       yaml_rules = options[:file] ? File.open(options[:file]) : File.open('dottor_rules.yml')
 
@@ -16,21 +17,13 @@ module Dottor
 
       rules[profile_name].each_value do |app|
         app.each do |app_file|
+          Dotfile.new(app_file)
 
-          # If file exists rename it to .old
-          # TODO check if .old file already exists
-          if File.exists?(app_file["target"])
-            old_file_name = "#{app_file["target"]}.old"
-            FileUtils.mv app_file["target"], old_file_name
+          if options[:delete]
+            Dotfile.delete_symlink
+          else
+            Dotfile.create_symlink
           end
-
-          # If symlink exists, remove it
-          if File.symlink?(app_file["target"])
-            FileUtils.rm app_file["target"]
-          end
-
-          say ("Symlinking #{File.join(current_path, app_file["source"])} to #{app_file['source']}")
-          FileUtils.symlink File.join(current_path, app_file["source"]), app_file["target"]
         end
       end
     end
@@ -50,13 +43,6 @@ module Dottor
 
       say("dottor_rules.yml file created. Modify it and run 'dottor symlink <profile_name>'")
     end
-
-    private
-
-    def current_path
-      Dir.pwd
-    end
-
   end
 end
 
