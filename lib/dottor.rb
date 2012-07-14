@@ -29,7 +29,8 @@ module Dottor
             FileUtils.rm app_file["target"]
           end
 
-          FileUtils.symlink app_file["source"], app_file["target"]
+          say ("Symlinking #{File.join(current_path, app_file["source"])} to #{app_file['source']}")
+          FileUtils.symlink File.join(current_path, app_file["source"]), app_file["target"]
         end
       end
     end
@@ -49,6 +50,13 @@ module Dottor
 
       say("dottor_rules.yml file created. Modify it and run 'dottor symlink <profile_name>'")
     end
+
+    private
+
+    def current_path
+      Dir.pwd
+    end
+
   end
 end
 
