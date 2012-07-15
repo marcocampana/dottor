@@ -1,0 +1,4 @@
+---
+development:
+- source: .vimrc
+  target: target_path/.vimrc

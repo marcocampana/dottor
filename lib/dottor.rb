@@ -11,10 +11,10 @@ module Dottor
     def symlink(profile_name)
       yaml_rules = options[:file] ? File.open(options[:file]) : File.open('dottor_rules.yml')
 
-      puts "Loading rules YAML file"
+      say("Loading rules YAML file")
       rules = YAML::load(yaml_rules)
 
-      rules[profile_name].each_value do |mapping|
+      rules[profile_name].each do |mapping|
         dotfile = Dotfile.new(mapping)
         if options[:delete]
           dotfile.delete_symlink
