@@ -23,11 +23,13 @@ How it works?
 Dottor expect to find in your repo a YAML file named dottor_rules.yml (or you
 can specify a different path) with the following format
 
+```ruby
   profile_name:
   -  source: <dotffile or directory>
      target: <where do you want the file to be symlinked to>
   -  source: <dotffile or directory>
      target: <where do you want the file to be symlinked to>
+```
 
 All the actions performed by Dottor are based on the dottor_rules.yml file.
 Check my [dotfiles repo][dotfiles_repo] for a working example.
@@ -54,10 +56,15 @@ Getting started
 
   dottor symlink -d
 
-dottor_rules.yml file format
-----------------------------
+Submitting a Pull Request
+-------------------------
 
-
+1. Fork the project.
+2. Create a topic branch.
+3. Implement your feature or bug fix.
+4. Add documentation for your feature or bug fix.
+6. Add specs for your feature or bug fix.
+8. Commit and push your changes.
 
 License
 -------
