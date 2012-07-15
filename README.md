@@ -38,23 +38,33 @@ Check my [dotfiles repo][dotfiles_repo] for a working example.
 Getting started
 ---------------
 
+```
   gem install dottor
+```
 
 ### Create a dottor_rules.yml inside your dotfiles repo
 
+```
   dottor init
+```
 
 ### Create symlinks based on dottor_rules.yml file in current directory
 
+```
   dottor symlink <profile_name>
+```
 
 ### Specify a dottor_rules.yml file in another directory
 
+```
   dottor symlink <profile_name> -f <custom_path>
+```
 
 ### Delete all the symlinks
 
+```
   dottor symlink -d
+```
 
 Submitting a Pull Request
 -------------------------
