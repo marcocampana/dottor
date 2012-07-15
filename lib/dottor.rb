@@ -14,41 +14,57 @@ module Dottor
       puts "Loading rules YAML file"
       rules = YAML::load(yaml_rules)
 
-      rules[profile_name].each_value do |app|
-        app.each do |app_file|
-          dotfile = Dotfile.new(app_file)
-
-          if options[:delete]
-            dotfile.delete_symlink
-          else
-            dotfile.create_symlink
-          end
+      rules[profile_name].each_value do |mapping|
+        dotfile = Dotfile.new(mapping)
+        if options[:delete]
+          dotfile.delete_symlink
+        else
+          dotfile.create_symlink
         end
       end
     end
 
     desc "init", "Create dottor_rule.yml file"
+    method_option :force, :desc => "Overwrite existing dottor_rules.yml file"
     def init
       if File.exists?('dottor_rules.yml')
-        say("Abort: dottor_rules.yml already exist.")
-        exit(1)
+        if options[:force]
+          FileUtils.rm 'dottor_rules.yml'
+        else
+          say("Abort: dottor_rules.yml already exist. Use the --force to overwrite.")
+          exit(1)
+        end
       end
 
-      default_hash = {"profile_name" => {"app" => [{"source" => ".dotfile", "target" => "target/.dotfile"}]}}
+      rules_hash = {"profile_name" => []}
+
+      exclude_files = ['.gitignore', 'README', 'README.md']
+      if git_repo?
+        files_in_current_dir = `git ls-files`.split("\n") - exclude_files
+      else
+        files_in_current_dir = Dir["*"] - exclude_files
+      end
+
+      if files_in_current_dir.empty?
+        rules_hash["profile_name"] = [{"source" => ".dotfile", "target" => "target_path/.dotfile"}]
+      else
+        files_in_current_dir.each do |file_name|
+          rules_hash["profile_name"] << {"source" => file_name, "target" => "target_path/#{file_name}"}
+        end
+      end
 
       File.open('dottor_rules.yml', 'w') do |file|
-        file.write(YAML.dump(default_hash))
+        file.write(YAML.dump(rules_hash))
       end
 
       say("dottor_rules.yml file created. Modify it and run 'dottor symlink <profile_name>'")
     end
+
+    private
+
+    # TODO move into an helper module
+    def git_repo?
+      File.exists? '.git'
+    end
   end
 end
-
-# TODO
-# 1. Use thor to organize command line tools
-# 2. by default existing files will be saved as .old
-# 3. add task to init a dotfiles project by creating yaml file
-# 3. add task to init a dotfiles project by creating yaml file and populate it
-#    with existing files
-# 4. Add task to remove symlinks
