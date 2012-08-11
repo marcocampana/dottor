@@ -14,6 +14,12 @@ module Dottor
       say("Loading rules YAML file")
       rules = YAML::load(yaml_rules)
 
+      if rules[profile_name].nil?
+        $stderr.puts("Error: Profile name not found. Make sure that your dottor_rules yaml file define the profile #{profile_name}")
+        # exit(1)
+        return
+      end
+
       rules[profile_name].each do |mapping|
         dotfile = Dotfile.new(mapping)
         if options[:delete]
@@ -31,7 +37,7 @@ module Dottor
         if options[:force]
           FileUtils.rm 'dottor_rules.yml'
         else
-          say("Abort: dottor_rules.yml already exist. Use the --force to overwrite.")
+          say("Error: dottor_rules.yml already exist. Use the --force to overwrite.")
           exit(1)
         end
       end
