@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe "Dottor::App" do
-  describe "symlink" do
+  describe "#symlink" do
     it "should use the dottor_rules.yml in current directory by default" do
       stub_dottor_rules_file('dottor_rules.yml')
       stub_dotfile
@@ -21,6 +21,14 @@ describe "Dottor::App" do
       stub_dotfile(:create_symlink)
 
       Dottor::App.start(['symlink', 'development'])
+    end
+
+    it "should return an error message if profile_name is not found" do
+      stub_dottor_rules_file('dottor_rules.yml')
+
+      capture(:stderr) {
+        Dottor::App.start(['symlink', 'not_defined_profile_name'])
+      }.should =~ /Error: Profile name not found/
     end
   end
 end
