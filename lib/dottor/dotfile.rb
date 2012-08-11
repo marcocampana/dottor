@@ -9,19 +9,18 @@ module Dottor
 
     def create_symlink
       # If file exists rename it to .old
-      # TODO check if .old file already exists
-      if File.exists?(target)
-        old_file_name = "#{target}.old"
-        FileUtils.mv target, old_file_name
-      end
+      # if File.exists?(target)
+      #   old_file_name = "#{target}.old"
+      #   FileUtils.mv(target, old_file_name) unless File.exists?(old_file_name)
+      # end
 
       # If symlink exists, remove it
-      if File.symlink?(target)
+      if File.exists?(target) || File.symlink?(target)
         FileUtils.rm target
       end
 
       $stdout.puts("Create symlink #{File.join(current_path, source)} -> #{target}")
-      FileUtils.symlink File.join(current_path, source), target
+      FileUtils.symlink(File.join(current_path, source), target)
     end
 
     def delete_symlink
