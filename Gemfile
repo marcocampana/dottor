@@ -1,3 +1,6 @@
 source "http://rubygems.org"
-gem "thor"
-gem "rspec"
+
+group :development do
+  gem "thor"
+  gem "rspec"
+end
