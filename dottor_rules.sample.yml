@@ -1,0 +1,16 @@
+---
+default:
+- source: vimrc
+  target: ~/.vimrc
+
+# Targets can resolve to the home directory of the executing user:
+- source: gitconfig
+  target: ~/.gitconfig
+
+# .. or to a specifc user:
+- source: gitconfig
+  target: ~ada/.gitconfig
+
+# .. or can be absolute directory references:
+- source: client.rb
+  target: /etc/chef/client.rb
