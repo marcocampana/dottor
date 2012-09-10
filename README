@@ -32,6 +32,7 @@ can specify a different path) with the following format
 ```
 
 All the actions performed by Dottor are based on the dottor_rules.yml file.
+For some examples, see the [dottor_rules.sample.yml](https://github.com/marcocampana/dottor/blob/master/dottor_rules.sample.yml) file.
 Check my [dotfiles repo][dotfiles_repo] for a working example.
 
 
