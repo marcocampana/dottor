@@ -7,6 +7,20 @@ module Dottor
       @target = hash["target"]
     end
 
+    # Public: Translate a relative target path to an absolute one
+    #
+    # Examples
+    #
+    #   dotfile = Dottor::Dotfile.new "source" => "blah", "target" => ".gitconfig"
+    #   dotfile.target
+    #   # => '/Users/stevejobs/.gitconfig'
+    #
+    # Returns the absolute path for the given relative string. If the
+    # string is already absolute, return unmodified.
+    def target
+      @expanded_target ||= File.expand_path(@target, ENV['HOME'])
+    end
+
     def create_symlink
       # If file exists rename it to .old
       # if File.exists?(target)
