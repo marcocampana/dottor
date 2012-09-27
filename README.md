@@ -13,7 +13,7 @@ with existing dotfiles repos.
 
 With Dottor you can:
 
-1. Get started with yout current dotfils repo, without changing anything.
+1. Get started with your current dotfiles repo, without changing anything.
 2. Specify different profiles, so that you can use it to symlink files in your
 dev machine as well as in your production boxes.
 
