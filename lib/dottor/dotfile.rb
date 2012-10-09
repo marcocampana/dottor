@@ -1,3 +1,5 @@
+require 'fileutils'
+
 module Dottor
   class Dotfile
     attr_accessor :source, :target
@@ -33,8 +35,12 @@ module Dottor
         FileUtils.rm target
       end
 
+      if !File.exists?(File.dirname(target))
+        FileUtils.mkdir_p(File.dirname(target))
+      end
+
       $stdout.puts("Create symlink #{File.join(current_path, source)} -> #{target}")
-      FileUtils.symlink(File.join(current_path, source), target)
+      File.symlink(File.join(current_path, source), target)
     end
 
     def delete_symlink
