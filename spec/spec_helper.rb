@@ -3,11 +3,14 @@ require 'rspec'
 $:.unshift(File.join(File.dirname(__FILE__), "..", "lib"))
 require 'dottor'
 require 'helpers/utils'
+require 'fakefs/spec_helpers'
 
 RSpec.configure do |c|
   c.include Utils
 
   c.mock_with :rspec
+
+  c.include FakeFS::SpecHelpers, fakefs: true
 
   c.before(:each) do
     # STDOUT.should_receive(:puts).at_least(1).times.and_return("")
